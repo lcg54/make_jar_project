@@ -97,16 +97,14 @@ public class Member {
 
     @Override
     public String toString() {
-        return "Member{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", gender='" + gender + '\'' +
-                ", birth='" + birth + '\'' +
-                ", marriage='" + marriage + '\'' +
-                ", salary=" + salary +
-                ", address='" + address + '\'' +
-                ", manager='" + manager + '\'' +
-                '}';
+        return  "\nid : " + id +
+                "\tname : " + name +
+                "\tpassword : " + password +
+                "\tgender : " + gender +
+                "\tbirth : " + birth +
+                "\tmarriage : " + marriage +
+                "\tsalary : " + salary +
+                "\taddress : " + address +
+                "\tmanager : " + manager;
     }
 }
