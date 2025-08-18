@@ -30,4 +30,21 @@ public class MemberManager {
             System.out.println("회원은 총 " + cnt + "명입니다.");
         }
     }
+
+    public void addOne() {
+        System.out.println(dao.addOne());
+    }
+
+    public void deleteOne() {
+        System.out.println(dao.deleteOne());
+    }
+
+    public void selectOne() {
+        List<Member> list = dao.selectOne();
+        if (list.size() == 0){
+            System.out.println("회원이 존재하지 않습니다.");
+        }else {
+            System.out.println(list); // toString 오버라이딩
+        }
+    }
 }

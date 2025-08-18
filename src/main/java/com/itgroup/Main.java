@@ -21,15 +21,19 @@ public class Main {
                     manager.selectAll();
                     break;
                 case 2:
+                    manager.addOne();
                     break;
                 case 3:
+                    //manager.updateOne();
                     break;
                 case 4:
                     manager.getSize();
                     break;
                 case 5:
+                    manager.deleteOne();
                     break;
                 case 6:
+                    manager.selectOne();
                     break;
                 case 7:
                     break;
