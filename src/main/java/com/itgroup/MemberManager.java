@@ -64,7 +64,7 @@ public class MemberManager {
         if (member == null){
             System.out.println("일치하는 회원이 존재하지 않습니다.");
         }else {
-            System.out.println("회원 정보가 다음과 같이 수정되었습니다.\n" + member);
+            System.out.println("회원 정보가 다음과 같이 수정되었습니다." + member);
         }
     }
 

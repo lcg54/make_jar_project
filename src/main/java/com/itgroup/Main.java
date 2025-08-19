@@ -10,10 +10,10 @@ public class Main {
         MemberManager manager = new MemberManager();
 
         while(true){
-            System.out.println("메뉴 선택");
+            System.out.println("\n메뉴 선택");
             System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:급여 갱신, 4:총 회원수, 5:회원탈퇴, 6:회원정보, 7:성별로 검색, 8:xx");
 
-            int menu = scan.nextInt();
+            int menu = Integer.parseInt(scan.nextLine());
             switch (menu){
                 case 0:
                     System.out.println("프로그램을 종료합니다.");
@@ -45,7 +45,7 @@ public class Main {
                     System.out.print("결혼 여부: ");
                     member.setMarriage(scan.nextLine());
 
-                    System.out.print("연봉: ");
+                    System.out.print("급여: ");
                     member.setSalary(Integer.parseInt(scan.nextLine()));
 
                     System.out.print("주소: ");
@@ -61,8 +61,8 @@ public class Main {
                     System.out.print("아이디: ");
                     String id = scan.nextLine();
 
-                    System.out.print("변경될 급여: ");
-                    int salary = scan.nextInt();
+                    System.out.print("변경할 급여: ");
+                    int salary = Integer.parseInt(scan.nextLine());
 
                     manager.updateSalary(id, salary);
                     break;

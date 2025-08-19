@@ -8,7 +8,7 @@ import java.util.List;
 
 // 데이터베이스와 직접 연동하여 CRUD 작업을 수행하는 DAO 클래스
 public class MemberDao {
-
+    
     // 1단계 : 드라이버 로딩
     // 변수 drive는 JDBC를 위한 드라이버의 이름으로, ojdbc숫자.jar라는 파일 안에 포함되어 있는 자바 클래스 이름
     // 일반적으로 생성자 내에 구현 (자동 실행)
