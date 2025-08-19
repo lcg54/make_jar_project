@@ -31,20 +31,50 @@ public class MemberManager {
         }
     }
 
-    public void addOne() {
-        System.out.println(dao.addOne());
+    public void addOne(Member member) {
+        if (dao.addOne(member) > 0) {
+            System.out.println("새 회원 \'" + member.getId() + "\' 님이 등록되었습니다.");
+        } else {
+            System.out.println("회원 등록 실패.");
+        }
     }
 
-    public void deleteOne() {
-        System.out.println(dao.deleteOne());
+    public void deleteOne(String id) {
+        Member member = dao.deleteOne(id);
+        if (member == null){
+            System.out.println("일치하는 회원이 존재하지 않습니다.");
+        }else {
+            System.out.println("탈퇴할 회원 정보 : " + member);
+            System.out.println("탈퇴가 완료되었습니다.");
+
+        }
     }
 
-    public void selectOne() {
-        List<Member> list = dao.selectOne();
+    public void findById(String id) {
+        Member member = dao.findById(id);
+        if (member == null){
+            System.out.println("일치하는 회원이 존재하지 않습니다.");
+        }else {
+            System.out.println("회원 정보 : " + member);
+        }
+    }
+
+    public void updateSalary(String id, int salary) {
+        Member member = dao.updateSalary(id, salary);
+        if (member == null){
+            System.out.println("일치하는 회원이 존재하지 않습니다.");
+        }else {
+            System.out.println("회원 정보가 다음과 같이 수정되었습니다.\n" + member);
+        }
+    }
+
+
+    public void findByGender(String gen) {
+        List<Member> list = dao.findByGender(gen);
         if (list.size() == 0){
             System.out.println("회원이 존재하지 않습니다.");
-        }else {
-            System.out.println(list); // toString 오버라이딩
+        }else{
+            System.out.println(list);
         }
     }
 }

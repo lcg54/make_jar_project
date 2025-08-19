@@ -23,6 +23,10 @@ public class Member {
         this.manager = manager;
     }
 
+    public Member() {
+
+    }
+
     public String getId() {
         return id;
     }
