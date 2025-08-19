@@ -8,7 +8,7 @@ import java.util.List;
 
 // 데이터베이스와 직접 연동하여 CRUD 작업을 수행하는 DAO 클래스
 public class MemberDao {
-    
+
     // 1단계 : 드라이버 로딩
     // 변수 drive는 JDBC를 위한 드라이버의 이름으로, ojdbc숫자.jar라는 파일 안에 포함되어 있는 자바 클래스 이름
     // 일반적으로 생성자 내에 구현 (자동 실행)
@@ -128,12 +128,12 @@ public class MemberDao {
 
             int res = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE 문 실행, 반환타입 int, 정수를 return
             // 입력값을 받은 뒤에 실행해야 하므로 setString 뒤에 배치
-            // *** executeUpdate()의 경우 객체가 아닌 int를 반환하므로 따로 close할 필요가 없음
+            // *** executeUpdate()의 경우 int로 반환하므로 따로 close할 필요가 없음
 
             return res; // executeUpdate() 값을 리턴하여 1이 나오면 등록 성공임을 알 수 있도록 설정
 
         } catch (SQLException e) {
-            if (e.getMessage().contains("duplicate")) { // primary key인 id가 중복되는 경우 SQLException 발생
+            if ("23000".equals(e.getSQLState())) { // primary key(=id)가 중복되는 경우 SQLException 발생
                 System.out.println("이미 존재하는 회원 ID입니다.");
             }
             throw new RuntimeException(e);
