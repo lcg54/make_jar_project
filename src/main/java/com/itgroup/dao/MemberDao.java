@@ -78,7 +78,7 @@ public class MemberDao {
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery();){ // executeQuery() : SELECT 문 실행, 반환타입 ResultSet, rs.get@@로 return
+             ResultSet rs = pstmt.executeQuery();){ // executeQuery() : SELECT 문 실행, 반환타입 ResultSet(객체)
 
             while (rs.next()){ // 결과가 여러 행이므로 if 대신 while 사용 // rs.next() = rs의 다음 행이 존재하면 (=값이 하나라도 존재하면) true
                 String id = rs.getString("id");
@@ -113,6 +113,7 @@ public class MemberDao {
     public int addOne(Member member) {
         String sql = "insert into members (id, name, password, gender, birth, marriage, salary, address, manager)" +
                 " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        int cnt = 0;
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);){
@@ -127,11 +128,11 @@ public class MemberDao {
             pstmt.setString(8, member.getAddress());
             pstmt.setString(9, member.getManager());
 
-            int res = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE 문 실행, 반환타입 int, 정수를 return
+            cnt = pstmt.executeUpdate(); // INSERT, UPDATE, DELETE 문 실행, 반환타입 int
             // 입력값을 받은 뒤에 실행해야 하므로 setString 뒤에 배치
             // *** executeUpdate()의 경우 int로 반환하므로 따로 close할 필요가 없음
 
-            return res; // executeUpdate() 값을 리턴하여 1이 나오면 등록 성공임을 알 수 있도록 설정
+            conn.commit(); // 커밋
 
         } catch (SQLException e) {
             if ("23000".equals(e.getSQLState())) { // primary key(=id)가 중복되는 경우 SQLException 발생
@@ -139,6 +140,7 @@ public class MemberDao {
             }
             throw new RuntimeException(e);
         }
+        return cnt; // executeUpdate() 값을 리턴하여 1이 나오면 등록 성공임을 알 수 있도록 설정
     }
 
 
@@ -222,7 +224,7 @@ public class MemberDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return findById(searchId); // member를 리턴하면 수정 전 대입했던 정보를 반환하게 되므로, 바뀐 회원정보를 findById로 다시 불러와서 리턴
+        return findById(searchId); // member를 리턴하면 수정 전 정보를 반환하게 되므로, 바뀐 회원정보를 findById로 다시 불러와서 리턴
     }
 
 
