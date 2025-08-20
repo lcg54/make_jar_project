@@ -83,8 +83,8 @@ public class MemberDao {
             while (rs.next()){ // 결과가 여러 행이므로 if 대신 while 사용 // rs.next() = rs의 다음 행이 존재하면 (=값이 하나라도 존재하면) true
                 String id = rs.getString("id");
                 String name = rs.getString("name");
-                String password = rs.getString("password");
-                String gender = rs.getString("gender");
+                String password = rs.getString("password"); // rs.get반환타입("컬럼명")
+                String gender = rs.getString("gender");     // set처럼 컬럼순서(숫자)를 입력해도 되긴 함
                 String birth = rs.getString("birth");
                 String marriage = rs.getString("marriage");
                 int salary = rs.getInt("salary");
@@ -118,7 +118,7 @@ public class MemberDao {
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);){
 
-            pstmt.setString(1, member.getId());
+            pstmt.setString(1, member.getId()); //  준비된문장.set반환타입(물음표 순서, 대입할거)
             pstmt.setString(2, member.getName());
             pstmt.setString(3, member.getPassword());
             pstmt.setString(4, member.getGender());
@@ -158,6 +158,8 @@ public class MemberDao {
             pstmt.setString(1, searchId);
             pstmt.executeUpdate(); // 삭제 실행
 
+            conn.commit();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -177,7 +179,7 @@ public class MemberDao {
             rs = pstmt.executeQuery();
 
             if (rs.next()){
-                String id = rs.getString("id");
+                String id = rs.getString("id"); //
                 String name = rs.getString("name");
                 String password = rs.getString("password");
                 String gender = rs.getString("gender");
@@ -199,7 +201,6 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
         }
         return member;
@@ -220,6 +221,8 @@ public class MemberDao {
             pstmt.setString(2, searchId);
             pstmt.setInt(1, newSalary);
             pstmt.executeUpdate();
+
+            conn.commit();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -264,7 +267,6 @@ public class MemberDao {
                     rs.close();
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
             }
         }
         return list;
