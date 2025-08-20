@@ -79,7 +79,7 @@ public class BoardDao extends SuperDao{
 
             pstmt.setString(1, writer); // 문장의 ? 에 writer를 대입하고
 
-            try(ResultSet rs = pstmt.executeQuery();) { // 문장을 db에서 실행. 만약 try() 안에서 실행까지 처리해버리면 ?인 상태로 대입되니 에러가 뜸
+            try(ResultSet rs = pstmt.executeQuery();) { // 문장을 db에서 실행. 만약 먼저 실행까지 처리해버리면 ?인 상태로 대입되니 에러가 뜸
                 if (rs.next()) {
                     board = this.setBoard(rs);
                 }
