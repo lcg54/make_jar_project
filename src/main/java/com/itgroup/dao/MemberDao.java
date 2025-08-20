@@ -7,35 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 // 데이터베이스와 직접 연동하여 CRUD 작업을 수행하는 DAO 클래스
-public class MemberDao {
-
-    // 1단계 : 드라이버 로딩
-    // 변수 drive는 JDBC를 위한 드라이버의 이름으로, ojdbc숫자.jar라는 파일 안에 포함되어 있는 자바 클래스 이름
-    // 일반적으로 생성자 내에 구현 (자동 실행)
+public class MemberDao extends SuperDao{
     public MemberDao() {
-        String driver = "oracle.jdbc.driver.OracleDriver";
-        try {
-            Class.forName(driver); // driver라는 문자열을 클래스화시켜서 메모리에 로딩
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e); // 해당 클래스가 존재하지 않을 경우 예외처리
-        }
+        super(); // 안써도 암시적으로 호출됨
     }
-
-    // 2단계 : 커넥션 객체 생성
-    public Connection getConnection() {
-        String url = "jdbc:oracle:thin:@localhost:1521:xe";
-        String id = "oraman";
-        String password = "oracle";
-
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection(url, id, password);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return conn;
-    }
-
+    
     // 3~5단계 : PreparedStatement(sql) 입력하기, ResultSet 받아오기, close();
     public int getSize() {
         String sql = "select count(*) as cnt from members";
@@ -45,7 +21,7 @@ public class MemberDao {
         int cnt = 0;
 
         try {
-            conn = this.getConnection();
+            conn = super.getConnection(); // 어차피 해당 메소드를 상속받고 있으므로 this로 써도 상관없으나, 해당 클래스에 보이지 않으니 타인에게 혼선을 줄 수 있으므로 super로 기입하는 편
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
@@ -82,7 +58,7 @@ public class MemberDao {
 
         List<Member> list = new ArrayList<>();
 
-        try (Connection conn = this.getConnection();
+        try (Connection conn = super.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery();) { // executeQuery() : SELECT 문 실행, 반환타입 ResultSet(객체)
 
@@ -121,7 +97,7 @@ public class MemberDao {
                 " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         int cnt = 0;
 
-        try (Connection conn = this.getConnection();
+        try (Connection conn = super.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             pstmt.setString(1, member.getId()); //  준비된문장.set반환타입(물음표 순서, 대입할거)
@@ -158,7 +134,7 @@ public class MemberDao {
 
         String sql = "delete from members where id = ?";
 
-        try (Connection conn = this.getConnection();
+        try (Connection conn = super.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, searchId);
@@ -178,7 +154,7 @@ public class MemberDao {
         Member member = null;
         ResultSet rs = null;
 
-        try (Connection conn = this.getConnection();
+        try (Connection conn = super.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             pstmt.setString(1, searchId);
@@ -219,7 +195,7 @@ public class MemberDao {
         List<Member> list = new ArrayList<>();
         ResultSet rs = null;
 
-        try (Connection conn = this.getConnection();
+        try (Connection conn = super.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             pstmt.setString(1, gen);
@@ -263,7 +239,7 @@ public class MemberDao {
         
         String sql = "update members set name = ?, password = ?, gender = ?, birth = ?, marriage = ?, salary = ?, address = ?, manager = ? where id = ?";
         
-        try (Connection conn = this.getConnection();
+        try (Connection conn = super.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             String name = updateMember.getName();

@@ -11,8 +11,8 @@ public class Main {
 
         while(true){
             System.out.println("\n메뉴 선택");
-            System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:회원정보 수정, 4:총 회원수, 5:회원탈퇴, 6:회원정보, 7:성별로 검색, 8: xx");
-            System.out.println("11:게시물 전체, 12:등록, 13:수정, 14:전체 건수, 15:삭제, 16:1건정보");
+            System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:회원정보 수정, 4:총 회원수, 5:회원탈퇴, 6:회원정보, 7:성별로 검색");
+            System.out.println("11:게시물 전체, 12:등록, 13:수정, 14:전체 건수, 15:삭제, 16:1건정보, 17:짝수만 조회");
 
             int menu = Integer.parseInt(scan.nextLine());
             switch (menu){
@@ -141,7 +141,18 @@ public class Main {
                     manager.findByGender(gen);
                     break;
 
-                case 8:
+                case 11:
+                    manager.selectAllBoard();
+                    break;
+
+                case 16:
+                    System.out.print("작가: ");
+                    String writer = scan.nextLine();
+                    manager.selectOneData(writer);
+                    break;
+
+                case 17:
+                    manager.selectEvenData();
                     break;
             }
         }

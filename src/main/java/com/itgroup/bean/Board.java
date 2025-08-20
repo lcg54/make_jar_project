@@ -19,17 +19,13 @@ public class Board {
         this.regdate = regdate;
     }
 
+    public Board() {
+
+    }
+
     @Override
     public String toString() {
-        return "Board{" +
-                "no=" + no +
-                ", writer='" + writer + '\'' +
-                ", password='" + password + '\'' +
-                ", subject='" + subject + '\'' +
-                ", content='" + content + '\'' +
-                ", readhit=" + readhit +
-                ", regdate='" + regdate + '\'' +
-                '}';
+        return  "\n" + no + "\t" + writer + "\t" + password + "\t" + subject + "\t" + content + "\t" + readhit + "\t" + regdate;
     }
 
     public int getNo() {
