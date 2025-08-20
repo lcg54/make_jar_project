@@ -11,7 +11,7 @@ public class Main {
 
         while(true){
             System.out.println("\n메뉴 선택");
-            System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:회원탈퇴, 4:총 회원수, 5:급여 갱신, 6:회원정보, 7:성별로 검색, 8:xx");
+            System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:회원탈퇴, 4:총 회원수, 5:회원정보 수정, 6:회원정보, 7:성별로 검색, 8: xx");
 
             int menu = Integer.parseInt(scan.nextLine());
             switch (menu){
@@ -72,10 +72,58 @@ public class Main {
                     System.out.print("아이디: ");
                     id = scan.nextLine();
 
-                    System.out.print("변경할 급여: ");
-                    int salary = Integer.parseInt(scan.nextLine());
+                    Member updateMember = new Member();
 
-                    manager.updateSalary(id, salary);
+                    System.out.print("변경할 이름 (건너뛰려면 Enter): ");
+                    String name = scan.nextLine();
+                    if (!name.isBlank()) {
+                        updateMember.setName(name);
+                    }
+
+                    System.out.print("변경할 비밀번호 (건너뛰려면 Enter): ");
+                    String password = scan.nextLine();
+                    if (!password.isBlank()) {
+                        updateMember.setPassword(password);
+                    }
+
+                    System.out.print("변경할 성별 (건너뛰려면 Enter): ");
+                    String gender = scan.nextLine();
+                    if (!gender.isBlank()) {
+                        updateMember.setGender(gender);
+                    }
+
+                    System.out.print("변경할 생년월일 (yyyy-MM-dd) (건너뛰려면 Enter): ");
+                    String birth = scan.nextLine();
+                    if (!birth.isBlank()) {
+                        updateMember.setBirth(birth);
+                    }
+
+                    System.out.print("변경할 결혼 여부 (건너뛰려면 Enter): ");
+                    String marriage = scan.nextLine();
+                    if (!marriage.isBlank()) {
+                        updateMember.setMarriage(marriage);
+                    }
+
+                    System.out.print("변경할 급여 (건너뛰려면 Enter): ");
+                    String salaryInput = scan.nextLine();
+                    if (!salaryInput.isBlank()) {
+                        int salary = Integer.parseInt(salaryInput);
+                        updateMember.setSalary(salary);
+                    }
+
+                    System.out.print("변경할 주소 (건너뛰려면 Enter): ");
+                    String address = scan.nextLine();
+                    if (!address.isBlank()) {
+                        updateMember.setAddress(address);
+                    }
+
+                    System.out.print("변경할 관리자명 (건너뛰려면 Enter): ");
+                    String managerName = scan.nextLine();
+                    if (!managerName.isBlank()) {
+                        updateMember.setManager(managerName);
+                    }
+
+                    manager.updateOne(id, updateMember);
                     break;
 
                 case 6:

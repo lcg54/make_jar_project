@@ -35,7 +35,7 @@ public class MemberManager {
         if (dao.addOne(member) > 0) {
             System.out.println("새 회원 \'" + member.getId() + "\' 님이 등록되었습니다.");
         } else {
-            System.out.println("회원 등록 실패.");
+            System.out.println("회원 등록에 실패하였습니다.");
         }
     }
 
@@ -59,22 +59,21 @@ public class MemberManager {
         }
     }
 
-    public void updateSalary(String id, int salary) {
-        Member member = dao.updateSalary(id, salary);
-        if (member == null){
-            System.out.println("일치하는 회원이 존재하지 않습니다.");
-        }else {
-            System.out.println("회원 정보가 다음과 같이 수정되었습니다." + member);
-        }
-    }
-
-
     public void findByGender(String gen) {
         List<Member> list = dao.findByGender(gen);
         if (list.size() == 0){
-            System.out.println("회원이 존재하지 않습니다.");
+            System.out.println("일치하는 회원이 존재하지 않습니다.");
         }else{
             System.out.println(list);
+        }
+    }
+
+    public void updateOne(String id, Member updateMember) {
+        Member updated = dao.updateOne(id, updateMember);
+        if (updated == null) {
+            System.out.println("일치하는 회원이 존재하지 않습니다.");
+        } else {
+            System.out.println("수정 완료: " + updated);
         }
     }
 }

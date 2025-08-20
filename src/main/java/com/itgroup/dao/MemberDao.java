@@ -49,7 +49,7 @@ public class MemberDao {
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
 
-            if (rs.next()){
+            if (rs.next()) {
                 cnt = rs.getInt("cnt"); // 실행 결과를 int값으로 반환
             }
 
@@ -58,10 +58,16 @@ public class MemberDao {
 
         } finally {
             try {
-                if(rs != null){rs.close();}
-                if(pstmt != null){pstmt.close();}
-                if(conn != null){conn.close();}
-            } catch(Exception ex) {
+                if (rs != null) {
+                    rs.close();
+                }
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (Exception ex) {
             }
         }
         return cnt;
@@ -78,9 +84,9 @@ public class MemberDao {
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery();){ // executeQuery() : SELECT 문 실행, 반환타입 ResultSet(객체)
+             ResultSet rs = pstmt.executeQuery();) { // executeQuery() : SELECT 문 실행, 반환타입 ResultSet(객체)
 
-            while (rs.next()){ // 결과가 여러 행이므로 if 대신 while 사용 // rs.next() = rs의 다음 행이 존재하면 (=값이 하나라도 존재하면) true
+            while (rs.next()) { // 결과가 여러 행이므로 if 대신 while 사용 // rs.next() = rs의 다음 행이 존재하면 (=값이 하나라도 존재하면) true
                 String id = rs.getString("id");
                 String name = rs.getString("name");
                 String password = rs.getString("password"); // rs.get반환타입("컬럼명")
@@ -116,7 +122,7 @@ public class MemberDao {
         int cnt = 0;
 
         try (Connection conn = this.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);){
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             pstmt.setString(1, member.getId()); //  준비된문장.set반환타입(물음표 순서, 대입할거)
             pstmt.setString(2, member.getName());
@@ -173,12 +179,12 @@ public class MemberDao {
         ResultSet rs = null;
 
         try (Connection conn = this.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);){
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             pstmt.setString(1, searchId);
             rs = pstmt.executeQuery();
 
-            if (rs.next()){
+            if (rs.next()) {
                 String id = rs.getString("id"); //
                 String name = rs.getString("name");
                 String password = rs.getString("password");
@@ -207,30 +213,6 @@ public class MemberDao {
     }
 
 
-    public Member updateSalary(String searchId, int newSalary) {
-        Member member = findById(searchId);
-        if (member == null) {
-            return null;
-        }
-
-        String sql = "update members set salary = ? where id = ?";
-
-        try (Connection conn = this.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(2, searchId);
-            pstmt.setInt(1, newSalary);
-            pstmt.executeUpdate();
-
-            conn.commit();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return findById(searchId); // member를 리턴하면 수정 전 정보를 반환하게 되므로, 바뀐 회원정보를 findById로 다시 불러와서 리턴
-    }
-
-
     public List<Member> findByGender(String gen) {
         String sql = "select * from members where gender = ?";
 
@@ -238,12 +220,12 @@ public class MemberDao {
         ResultSet rs = null;
 
         try (Connection conn = this.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);){
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
 
             pstmt.setString(1, gen);
             rs = pstmt.executeQuery();
 
-            while (rs.next()){
+            while (rs.next()) {
                 String id = rs.getString("id");
                 String name = rs.getString("name");
                 String password = rs.getString("password");
@@ -270,5 +252,75 @@ public class MemberDao {
             }
         }
         return list;
+    }
+
+
+    public Member updateOne(String searchId, Member updateMember) {
+        Member member = findById(searchId);
+        if (member == null) {
+            return null;
+        }
+        
+        String sql = "update members set name = ?, password = ?, gender = ?, birth = ?, marriage = ?, salary = ?, address = ?, manager = ? where id = ?";
+        
+        try (Connection conn = this.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);) {
+
+            String name = updateMember.getName();
+            if (name == null || name.isBlank()) { // 값이 null이거나 공백인(그냥 엔터친) 경우 기존의 값을 할당.
+                name = member.getName();
+            }
+
+            String password = updateMember.getPassword();
+            if (password == null || password.isBlank()) {
+                password = member.getPassword();
+            }
+
+            String gender = updateMember.getGender();
+            if (gender == null || gender.isBlank()) {
+                gender = member.getGender();
+            }
+
+            String birth = updateMember.getBirth();
+            if (birth == null || birth.isBlank()) {
+                birth = member.getBirth();
+            }
+
+            String marriage = updateMember.getMarriage();
+            if (marriage == null || marriage.isBlank()) {
+                marriage = member.getMarriage();
+            }
+
+            int salary = updateMember.getSalary();
+            if (salary == 0) {
+                salary = member.getSalary();
+            }
+
+            String address = updateMember.getAddress();
+            if (address == null || address.isBlank()) {
+                address = member.getAddress();
+            }
+
+            String manager = updateMember.getManager();
+            if (manager == null || manager.isBlank()) {
+                manager = member.getManager();
+            }
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, password);
+            pstmt.setString(3, gender);
+            pstmt.setString(4, birth);
+            pstmt.setString(5, marriage);
+            pstmt.setInt(6, salary);
+            pstmt.setString(7, address);
+            pstmt.setString(8, manager);
+            pstmt.setString(9, searchId);
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return findById(searchId); // 수정된 정보 다시 조회해서 반환
     }
 }
