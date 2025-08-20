@@ -6,10 +6,10 @@ import com.itgroup.dao.MemberDao;
 import java.util.List;
 
 // 메인 클래스 대신 실제 모든 업무를 총 잭임지는 매니저 클래스
-public class MemberManager {
+public class DataManager {
     private MemberDao dao = null; // 실제 데이터베이스와 연동하는 다오 클래스
 
-    public MemberManager() {
+    public DataManager() {
         this.dao =new MemberDao();
     }
 

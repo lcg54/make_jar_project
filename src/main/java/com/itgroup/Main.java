@@ -7,11 +7,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-        MemberManager manager = new MemberManager();
+        DataManager manager = new DataManager();
 
         while(true){
             System.out.println("\n메뉴 선택");
-            System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:회원탈퇴, 4:총 회원수, 5:회원정보 수정, 6:회원정보, 7:성별로 검색, 8: xx");
+            System.out.println("0:종료, 1:회원 목록 조회, 2:회원가입, 3:회원정보 수정, 4:총 회원수, 5:회원탈퇴, 6:회원정보, 7:성별로 검색, 8: xx");
+            System.out.println("11:게시물 전체, 12:등록, 13:수정, 14:전체 건수, 15:삭제, 16:1건정보");
 
             int menu = Integer.parseInt(scan.nextLine());
             switch (menu){
@@ -60,17 +61,6 @@ public class Main {
                 case 3:
                     System.out.print("아이디: ");
                     String id = scan.nextLine();
-
-                    manager.deleteOne(id);
-                    break;
-
-                case 4:
-                    manager.getSize();
-                    break;
-
-                case 5:
-                    System.out.print("아이디: ");
-                    id = scan.nextLine();
 
                     Member updateMember = new Member();
 
@@ -124,6 +114,17 @@ public class Main {
                     }
 
                     manager.updateOne(id, updateMember);
+                    break;
+
+                case 4:
+                    manager.getSize();
+                    break;
+
+                case 5:
+                    System.out.print("아이디: ");
+                    id = scan.nextLine();
+
+                    manager.deleteOne(id);
                     break;
 
                 case 6:
