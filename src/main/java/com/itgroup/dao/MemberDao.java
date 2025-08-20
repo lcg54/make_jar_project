@@ -111,7 +111,8 @@ public class MemberDao {
 
 
     public int addOne(Member member) {
-        String sql = "insert into members (id, name, password, gender, birth, marriage, salary, address, manager) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "insert into members (id, name, password, gender, birth, marriage, salary, address, manager)" +
+                " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = this.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);){
