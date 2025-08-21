@@ -105,6 +105,31 @@ public class DataManager {
 
     public void selectOneData(String writer) {
         Board board = bdao.selectOne(writer);
-        System.out.println(board);
+        if (board != null){
+            System.out.println(board); // 위와 같으며 예외처리까지
+        } else {
+            System.out.println("일치하는 작성자가 없습니다.");
+        }
+    }
+
+    public void getSizeBoard() {
+        int res = bdao.getSize();
+        if (res > 0){
+            System.out.println("게시글은 총 " + res + "건입니다.");
+        } else {
+            System.out.println("게시글이 존재하지 않습니다.");
+        }
+    }
+
+
+    public void deleteOneBoard(String title) {
+        int res = bdao.deleteOne(title);
+        if (res == 1){
+            System.out.println("해당 게시글을 삭제하였습니다.");
+        } else if (res > 1) {
+            System.out.println("일치하는 게시글이 " + res + "개 존재합니다.");
+        } else {
+            System.out.println("일치하는 게시글이 존재하지 않습니다.");
+        }
     }
 }

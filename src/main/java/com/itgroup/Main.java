@@ -145,10 +145,19 @@ public class Main {
                     manager.selectAllBoard();
                     break;
 
+                case 14:
+                    manager.getSizeBoard();
+                    break;
+
+                case 15:System.out.print("게시글: ");
+                    String title = scan.nextLine();
+                    manager.deleteOneBoard(title);
+                    break;
+
                 case 16:
-                    System.out.print("작가: ");
-                    String writer = scan.nextLine();
-                    manager.selectOneData(writer);
+                    System.out.print("작성자: ");
+                    String wr = scan.nextLine();
+                    manager.selectOneData(wr);
                     break;
 
                 case 17:

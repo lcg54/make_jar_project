@@ -90,4 +90,51 @@ public class BoardDao extends SuperDao{
         }
         return board;
     }
+
+    public int getSize() {
+        int res = 0;
+
+        String sql = "select count(*) from boards";
+
+        try (Connection conn = super.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery();){
+            if (rs.next()){
+                res = rs.getInt("1"); // 컬럼숫자 or 컬럼명 둘다 가능. // 여기선 count(*)이므로 primary key를 지정하는게 좋음.
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
+
+    public int deleteOne(String con) {
+        int cnt = 0;
+        int res = 0;
+
+        String sql1 = "select count(*) from boards where content = ?";
+        String sql2 = "delete from boards where content = ?";
+
+        try (Connection conn = super.getConnection();
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+             ResultSet rs = pstmt1.executeQuery();){
+            if (rs.next()) {
+                cnt = rs.getInt("1");
+            }
+
+            try (PreparedStatement pstmt2 = conn.prepareStatement(sql2)){
+                if (cnt == 1) {
+                    pstmt2.setString(1, con);
+                    res = pstmt2.executeUpdate();
+                } else if (cnt > 1){
+                    res = cnt;
+                }
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return res;
+    }
 }
